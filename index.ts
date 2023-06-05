@@ -40,7 +40,8 @@ const raStrapiRest = (apiUrl: string, httpClient = fetchUtils.fetchJson): DataPr
       if (keys[i] === "q" && f[keys[i]] !== "") {
         filter += "_q=" + f[keys[i]] + (keys[i + 1] ? "&" : "");
       } else {
-        filter += "filters[" + keys[i] + "]_eq=" + f[keys[i]] + (keys[i + 1] ? "&" : "");
+        const [field, operator] = keys[i].split('_')
+        filter += "filters[" + field + "][$" + operator + "]=" + f[keys[i]] + (keys[i + 1] ? "&" : "");
       }
     }
     if (params.id && params.target && params.target.indexOf("_id") !== -1) {
